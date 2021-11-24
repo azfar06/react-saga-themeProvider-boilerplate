@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import AdminView from './container/auth/AdminView'
 import { LoginView } from './container/frontend/login'
 import GetToken from './GetToken'
 
@@ -9,15 +10,14 @@ const AppView = () => {
 
   if (isAuthenticated) {
     return (
-      <p>Admin View</p>
-      // <AdminView />
+      <AdminView />
     )
   }
 
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/login">
+        <Route path="/">
           <LoginView />
         </Route>
       </Switch>

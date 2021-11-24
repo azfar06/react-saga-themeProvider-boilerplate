@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from 'store/actions';
+import styled, { ThemeProvider } from "styled-components";
+import { lightTheme, darkTheme, GlobalStyles } from "theme";
+import AppIndex from 'app/AppIndex';
 
+const StyledApp = styled.div`
+  color: ${(props) => props.theme.fontColor};
+`;
 function App() {
-  const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.users);
-  const loading = useSelector((state) => state.users.loading);
-  const error = useSelector((state) => state.users.error);
+  const [theme, setTheme] = useState("light");
 
-  useEffect(() => {
-    dispatch(getUsers());
-  }, []);
-  return (
-    <div className="App">
-      <h1>Welcome to React Redux Saga Crash Course</h1>
-      {loading && <h2>Loading...</h2>}
-      {error && !loading && <h2>{error}</h2>}
-      {users && users.map((user, i) => <h1 key={i}>{user.name}</h1>)}
-    </div>
-  );
+    const themeToggler = () => {
+        theme === "light" ? setTheme("dark") : setTheme("light");
+    };
+    return (
+        <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+            <GlobalStyles />
+            <StyledApp>
+                <AppIndex />
+                <button onClick={() => themeToggler()}>Change Theme</button>
+            </StyledApp>
+        </ThemeProvider>
+    )
 }
 
 export default App;
